@@ -72,7 +72,7 @@
 
                   <b-tab-item label="PDF" icon="file-pdf" icon-pack="fas" :disabled="isactivetab[5]">
                         <p class="buttons center">
-                          <a class="button is-large" v-for="(item, index) in datatemp" :key="index" @click="downloadFileForId(item.id, item.name, item.year, item.number)">
+                          <a class="button is-large" v-for="(item, index) in datatemp" :key="index" @click="downloadFileForId(item.id, item.name)">
                             <span class="icon is-medium">
                                   <i class="fas fa-file-pdf"></i>
                             </span>
@@ -370,11 +370,11 @@ export default {
       this.search();
     },
 
-    //Buscar en google drive
+    //Buscar en Onedrive
     async search() {
       this.isLoading = true;
       this.$toast.open({
-        message: '[INFO] Buscando en Google Drive',
+        message: '[INFO] Buscando en OneDrive',
         type: 'is-info',
       });
       let modelito = {
@@ -401,43 +401,42 @@ export default {
      * @param year Año
      */
     async getFiles(company, month, type, year, bank) {
-      await axios
-        .get(`/drive/all/${company}/${month}/${type}/${year}/${bank}`)
-        .then(res => {
-          if (res.data.res) {
-            this.datatemp = res.data.pdf;
-            this.isLoading = false;
-            this.$forceUpdate();
-          }
-        })
-        .catch(err => {
+      try {
+        let res = await axios.get('/onedrive/all')
+        console.log(res)
+        if (res.data.res) {
+          this.datatemp = res.data.pdf;
           this.isLoading = false;
-          this.$toast.open({
-            message: '[ERROR] Busqueda en Google Drive',
-            type: 'is-danger',
-          });
-          console.log(`Error al consultar datos --> ${err}`);
+          this.$forceUpdate();
+        }
+      } catch (error) {
+        this.isLoading = false;
+        this.$toast.open({
+          message: '[ERROR] Busqueda en OneDrive',
+          type: 'is-danger',
         });
+        console.log(`Error al consultar datos --> ${err}`);
+      }
     },
 
     /**
      * Descargar archivo seleccionado
-     * @param id id del archivo de google drive
+     * @param id id del archivo de Onedrive
      * @param name nombre del archivo
      * @param year año
      * @param number numero de la cuenta por año
      */
-    async downloadFileForId(id, name, year, number) {
+    async downloadFileForId(id, name) {
       this.isLoading = true;
       this.$toast.open({
-        message: '[INFO] Descargando archivo de Google Drive',
+        message: '[INFO] Descargando archivo de OneDrive',
         type: 'is-info',
       });
       await axios
-        .get(`/drive/download/${id}/${name}/${year}/${number}`)
+        .get(`/onedrive/download/${id}/${name}`)
         .then(res => {
           if (res.data.res) {
-            this.pdfEdit(name);
+            this.pdfEdit(name+'.pdf');
             this.isLoading = false;
             this.$forceUpdate();
           }
@@ -445,7 +444,7 @@ export default {
         .catch(err => {
           this.isLoading = false;
           this.$toast.open({
-            message: '[ERROR] Al descargar archivo en Google Drive',
+            message: '[ERROR] Al descargar archivo en OneDrive',
             type: 'is-danger',
           });
           console.log(`Error al consultar datos --> ${err}`);
@@ -489,7 +488,7 @@ export default {
     async searchForFilter() {
       this.isLoading = true;
       this.$toast.open({
-        message: '[INFO] Buscando archivos en Google Drive',
+        message: '[INFO] Buscando archivos en OneDrive',
         type: 'is-info',
       });
 
@@ -504,7 +503,7 @@ export default {
             } else {
               this.$toast.open({
                 message:
-                  '[WARN] No se encontro archivos que coincidan en Google Drive',
+                  '[WARN] No se encontro archivos que coincidan en OneDrive',
                 type: 'is-warning',
               });
               this.datatempfilter = [];
@@ -516,7 +515,7 @@ export default {
         .catch(err => {
           this.isLoading = false;
           this.$toast.open({
-            message: '[ERROR] En la busqueda de archivos en Google Drive',
+            message: '[ERROR] En la busqueda de archivos en OneDrive',
             type: 'is-danger',
           });
           console.log(`Error al consultar datos --> ${err}`);
@@ -539,7 +538,7 @@ export default {
         .catch(err => {
           this.isLoading = false;
           this.$toast.open({
-            message: '[ERROR] Al procesar archivo en Google Drive',
+            message: '[ERROR] Al procesar archivo en OneDrive',
             type: 'is-danger',
           });
           console.log(`Error al consultar datos --> ${err}`);
@@ -581,7 +580,7 @@ export default {
     async extractAll() {
       this.isLoading = true;
       this.$toast.open({
-        message: '[INFO] Procesando archivo de Google Drive',
+        message: '[INFO] Procesando archivo de OneDrive',
         type: 'is-info',
       });
       await this.goExtracAll();

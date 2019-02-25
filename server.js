@@ -12,6 +12,7 @@ const rimraf = require('rimraf');
 const fs = require('fs');
 const archiver = require('archiver')
 const mongoose = require('mongoose')
+const onedrive = require('./src/utils/onedrive')
 
 const port = process.env.PORT || 8020;
 
@@ -353,6 +354,21 @@ app.get('/drive/files/:name', async (req, res) => {
     pdf
   })
 });
+
+app.get('/onedrive/all', async (req, res) => {
+  let files = await onedrive.getFilesAll()
+  res.json({
+    res: true,
+    pdf: files
+  })
+})
+
+app.get('/onedrive/download/:id/:name', async (req, res) => {
+  await onedrive.downloadFile(req.params.name, req.params.id)
+  res.json({
+    res: true
+  })
+})
 
 
 //Gestion de usuarios
