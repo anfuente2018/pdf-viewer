@@ -384,13 +384,14 @@ export default {
         year: this.datamodel[3].split(':')[1],
         month: this.datamodel[4].split(':')[1],
       };
-      await this.getFiles(
+      /*await this.getFiles(
         modelito.company,
         modelito.month,
         modelito.type,
         modelito.year,
         modelito.bank
-      );
+      );*/
+      await this.getFiles(modelito)
     },
 
     /**
@@ -400,9 +401,10 @@ export default {
      * @param type tipo (cheque o factura)
      * @param year Año
      */
-    async getFiles(company, month, type, year, bank) {
+    async getFiles(body) {
+
       try {
-        let res = await axios.get('/onedrive/all')
+        let res = await axios.post('/onedrive/all', body)
         console.log(res)
         if (res.data.res) {
           this.datatemp = res.data.pdf;

@@ -355,12 +355,22 @@ app.get('/drive/files/:name', async (req, res) => {
   })
 });
 
-app.get('/onedrive/all', async (req, res) => {
-  let files = await onedrive.getFilesAll()
-  res.json({
-    res: true,
-    pdf: files
-  })
+app.post('/onedrive/all', async (req, res) => {
+  let datos = req.body
+  let files = await onedrive.getFilesAll(datos)
+
+  if(files == null){
+    res.json({
+      res: false,
+      message: 'Error interno'
+    })
+  }else{
+    res.json({
+      res: true,
+      pdf: files
+    })
+  }
+  
 })
 
 app.get('/onedrive/download/:id/:name', async (req, res) => {
