@@ -1,4 +1,4 @@
-module.exports = {
+const _folders = {
      company: [
           {
                name_public: 'Agencias Navieras',
@@ -78,7 +78,7 @@ module.exports = {
           }
      ],
 
-     years: [2015, 2016, 2017, 2018],
+     years: [2015, 2016, 2017, 2018, 2019],
      months: [
           {
                name: 'Enero',
@@ -161,3 +161,5 @@ module.exports = {
           },
      ]
 }
+
+export default _folders

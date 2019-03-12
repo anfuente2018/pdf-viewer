@@ -267,8 +267,12 @@
 import pdf from 'vue-pdf';
 import axios from '@/config/axios.js';
 const pathview = process.env.VUE_APP_API_URL + 'viewpdf';
-//import {company, years, months, banks} from './folders.js';
-const {company, years, months, banks} = require('./folders.js');
+import _folders from './folders.js';
+const company = _folders.company
+const years = _folders.years
+const months = _folders.months
+const banks = _folders.banks
+//const {company, years, months, banks} = require('./folders.js');
 
 export default {
   data() {
