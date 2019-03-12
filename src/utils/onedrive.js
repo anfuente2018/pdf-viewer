@@ -68,9 +68,9 @@ async function getFiles(id) {
 exports.getFilesAll = async function getFilesAll(datos) {
   let file = [];
 
-  let isActiveToken = await validateToken()
-  if(!isActiveToken){
-    return null
+  let isActiveToken = await validateToken();
+  if (!isActiveToken) {
+    return null;
   }
 
   let year = await getFolders(idFolderRoot, datos.year);
@@ -134,19 +134,17 @@ async function getNewToken() {
     }
   };
 
-
-  return  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     request(options, function(error, response, body) {
       if (error) {
-        console.log(error)
-        reject(false)
+        console.log(error);
+        reject(false);
       }
       console.log(JSON.parse(body).access_token);
-      token = JSON.parse(body).access_token
-      resolve(true)
+      token = JSON.parse(body).access_token;
+      resolve(true);
     });
-  })
-
+  });
 }
 
 async function verificateToken() {
@@ -157,38 +155,75 @@ async function verificateToken() {
       shared: isShared,
       user: idUser
     });
-    
-    return 1
 
+    return 1;
   } catch (err) {
     if (err.error.error.code == "InvalidAuthenticationToken") {
       console.log("Token expirado");
-      return 2
+      return 2;
     } else {
       console.log(err.error.error.code);
-      return 3
+      return 3;
     }
   }
 }
 
-async function validateToken(){
-
-  let isActive = await verificateToken()
-  let response = null
-  if(isActive == 1){
-    console.log('Token activo')
-    response = true
-  }else if(isActive == 2){
-    console.log('Token invalido')
-    console.log('Generando nuevo token')
-    response = await getNewToken()
+async function validateToken() {
+  let isActive = await verificateToken();
+  let response = null;
+  if (isActive == 1) {
+    console.log("Token activo");
+    response = true;
+  } else if (isActive == 2) {
+    console.log("Token invalido");
+    console.log("Generando nuevo token");
+    response = await getNewToken();
     //response = true
-  }else{
-    console.log('Error interno')
-    response = false
+  } else {
+    console.log("Error interno");
+    response = false;
   }
 
-  return response
+  return response;
+}
+
+exports.getFileForFilter = async function getFileForFilter(text) {
+
+  let isActiveToken = await validateToken();
+  if (!isActiveToken) {
+    return null;
+  }
+
+  let headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Authorization": `Bearer ${token}`
+  };
+
+  let options = {
+    url:
+      `https://graph.microsoft.com/v1.0/users/8b3b3ca1-a523-4112-89fd-cf86979462a5/drive/root/search(q='${text}')?select=name,id`,
+    method: "GET",
+    headers: headers,
+    form: {}
+  };
+
+  return new Promise((resolve, reject) => {
+    request(options, function(error, response, body) {
+      if (error) {
+        console.log(error);
+        reject(null);
+      }
+      let data = JSON.parse(body).value
+      let res = []
+
+      for(let item of data){
+        let isValid = new RegExp(`${text.toLowerCase()}`).test(item.name.toLowerCase())
+        if(isValid) res.push(item)
+      }
+      
+      resolve(res);
+    });
+  });
 }
 
 //getNewToken()

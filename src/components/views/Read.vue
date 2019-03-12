@@ -103,7 +103,7 @@
         
         <section>
             <p class="buttons center">
-              <a class="button is-large" v-for="(item, index) in datatempfilter" :key="index" @click="downloadFileForId(item.id, item.name, item.year, item.number)">
+              <a class="button is-large" v-for="(item, index) in datatempfilter" :key="index" @click="downloadFileForId(item.id, item.name)">
                 <span class="icon is-medium">
                       <i class="fas fa-file-pdf"></i>
                 </span>
@@ -495,7 +495,7 @@ export default {
       });
 
       await axios
-        .get(`/drive/files/${this.filtersearch}`)
+        .get(`/onedrive/files/${this.filtersearch}`)
         .then(res => {
           if (res.data.res) {
             if (res.data.pdf.length > 0) {

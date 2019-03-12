@@ -380,6 +380,14 @@ app.get('/onedrive/download/:id/:name', async (req, res) => {
   })
 })
 
+app.get('/onedrive/files/:name', async (req, res) => {
+  let pdf = await onedrive.getFileForFilter(req.params.name)
+  res.json({
+    res: true,
+    pdf
+  })
+});
+
 
 //Gestion de usuarios
 
