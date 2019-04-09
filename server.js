@@ -13,6 +13,7 @@ const fs = require('fs');
 const archiver = require('archiver')
 const mongoose = require('mongoose')
 const onedrive = require('./src/utils/onedrive')
+const tempdata = require('./src/utils/tempData')
 
 const port = process.env.PORT || 8020;
 
@@ -382,6 +383,14 @@ app.get('/onedrive/download/:id/:name', async (req, res) => {
 
 app.get('/onedrive/files/:name', async (req, res) => {
   let pdf = await onedrive.getFileForFilter(req.params.name)
+  res.json({
+    res: true,
+    pdf
+  })
+});
+
+app.get('/temp/data', async (req, res) => {
+  let pdf = await tempdata.getFileForFilter()
   res.json({
     res: true,
     pdf
