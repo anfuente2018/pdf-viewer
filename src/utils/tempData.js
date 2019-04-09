@@ -1,10 +1,10 @@
-const onedrive = require("onedrive-api");
-const fs = require("fs");
-const request = require("request");
+const onedrive = require('onedrive-api');
+const fs = require('fs');
+const request = require('request');
 
 let token = `eyJ0eXAiOiJKV1QiLCJub25jZSI6IkFRQUJBQUFBQUFDRWZleFh4amFtUWIzT2VHUTRHdWd2RkNBWkV2TEMtZ2EzLXBEaG5BaGFGZTRMY1gtQ1F0RURCYlR5aG5VWjdXNGNDY2lvd1lIQkhFbEdmaGFTMkJBWThHTmpET1FwZF9LUnJFXzhtSll5WlNBQSIsImFsZyI6IlJTMjU2IiwieDV0IjoiLXN4TUpNTENJRFdNVFB2WnlKNnR4LUNEeHcwIiwia2lkIjoiLXN4TUpNTENJRFdNVFB2WnlKNnR4LUNEeHcwIn0.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC82YmMyNzE5Yy1kZTVlLTRkOWUtYWVhMC00NzM1NTNmYzk1MmUvIiwiaWF0IjoxNTUxMjQ0MjI4LCJuYmYiOjE1NTEyNDQyMjgsImV4cCI6MTU1MTI0ODEyOCwiYWlvIjoiNDJKZ1lEaDdKNmxrM3NkblFna0xucXpZTWMvb0dRQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJwZGYtdmlld2VyIiwiYXBwaWQiOiI3YTI2NDExZC04OTQ1LTQ5N2QtOWJkZi0xOTE4NThjNjRiZjAiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC82YmMyNzE5Yy1kZTVlLTRkOWUtYWVhMC00NzM1NTNmYzk1MmUvIiwib2lkIjoiYzFkZTRjYTgtMGJmMC00NmQ2LWIyM2ItMWMwMDlkYzllMGI2Iiwicm9sZXMiOlsiVXNlci5SZWFkV3JpdGUuQWxsIiwiRmlsZXMuUmVhZFdyaXRlLkFsbCIsIlVzZXIuUmVhZC5BbGwiLCJGaWxlcy5SZWFkLkFsbCJdLCJzdWIiOiJjMWRlNGNhOC0wYmYwLTQ2ZDYtYjIzYi0xYzAwOWRjOWUwYjYiLCJ0aWQiOiI2YmMyNzE5Yy1kZTVlLTRkOWUtYWVhMC00NzM1NTNmYzk1MmUiLCJ1dGkiOiJyckNSbWhva3lVaWxpUWprdVZjWkFBIiwidmVyIjoiMS4wIiwieG1zX3RjZHQiOjE1MzQxNzEzODZ9.fn5c0q8FCPbCN7hLNWT10xz0GBJJb2nruSRLSxDmcffAt6vQatTPZ_jPNvwVmNUSX8i3YiEAYEdkLQm6DM-PCTs6vhQty1ovGkVIoBGbO3zMskOUyjIfIgzx7gaOKEduRVAPi_7abxMO37sREvX3PuuBN5qr_WTjOxa7lD98MPbWGEFgw0_mcw29bZZW4mjJ3IVangmW3ojCWOWZWyYqmQa4ZMBJZ8H3vKkw_Ub-15XoQ9G3tMDsxYDs5hfe9mcVUhoeTyJU0SK8n8HU3zaVv_IMHEAT11_3lUlQrSanKf7VA6MxseXL9hhrkZ06_xeKj06NjzpGWmqaZyDPG4TdBw`;
-const idFolderRoot = "017R6ELVIN6OMMV3ONY5CJXPIIKSYJRT4R";
-const idUser = "8b3b3ca1-a523-4112-89fd-cf86979462a5";
+const idFolderRoot = '017R6ELVIN6OMMV3ONY5CJXPIIKSYJRT4R';
+const idUser = '8b3b3ca1-a523-4112-89fd-cf86979462a5';
 const isShared = true;
 
 async function getFolders(id, name) {
@@ -53,7 +53,7 @@ async function getFiles(id) {
 
     for (let item of childrens.value) {
       var temp = {
-        name: item.name.split(".pdf")[0],
+        name: item.name.split('.pdf')[0],
         id: item.id
       };
       response.push(temp);
@@ -74,17 +74,17 @@ async function getFilesAll(datos) {
   }
 
   let year = await getFolders(idFolderRoot, datos.year);
-  console.log("Paso 1");
+  console.log('Paso 1');
   let company = await getFolders(year, datos.company);
-  console.log("Paso 2");
+  console.log('Paso 2');
   let month = await getFolders(company, datos.month);
-  console.log("Paso 3");
+  console.log('Paso 3');
   let type = await getFolders(month, datos.type);
-  console.log("Paso 4");
+  console.log('Paso 4');
 
-  if (datos.type == "Cheque") {
+  if (datos.type == 'Cheque') {
     let bank = await getFolders(type, datos.bank);
-    console.log("Paso 5");
+    console.log('Paso 5');
     files = await getFiles(bank);
     console.log(files);
   } else {
@@ -93,7 +93,7 @@ async function getFilesAll(datos) {
   }
 
   return files;
-};
+}
 
 async function downloadFile(name, id) {
   await new Promise(async resolve => {
@@ -106,31 +106,31 @@ async function downloadFile(name, id) {
 
     await fileStream
       .pipe(fs.createWriteStream(`files/${name}.pdf`))
-      .on("end", () => {
+      .on('end', () => {
         console.log(`Archivo descargado de Google Drive -->`);
       })
-      .on("error", err => {
-        console.log("Error", err);
+      .on('error', err => {
+        console.log('Error', err);
       })
-      .on("finish", resolve);
+      .on('finish', resolve);
   });
-};
+}
 
 async function getNewToken() {
   let headers = {
-    "Content-Type": "application/x-www-form-urlencoded"
+    'Content-Type': 'application/x-www-form-urlencoded'
   };
 
   let options = {
     url:
-      "https://login.microsoftonline.com/6bc2719c-de5e-4d9e-aea0-473553fc952e/oauth2/v2.0/token",
-    method: "POST",
+      'https://login.microsoftonline.com/6bc2719c-de5e-4d9e-aea0-473553fc952e/oauth2/v2.0/token',
+    method: 'POST',
     headers: headers,
     form: {
-      client_id: "7a26411d-8945-497d-9bdf-191858c64bf0",
-      scope: "https://graph.microsoft.com/.default",
-      client_secret: "TPXDS5#_pnpkineQU5235={",
-      grant_type: "client_credentials"
+      client_id: '7a26411d-8945-497d-9bdf-191858c64bf0',
+      scope: 'https://graph.microsoft.com/.default',
+      client_secret: 'TPXDS5#_pnpkineQU5235={',
+      grant_type: 'client_credentials'
     }
   };
 
@@ -158,8 +158,8 @@ async function verificateToken() {
 
     return 1;
   } catch (err) {
-    if (err.error.error.code == "InvalidAuthenticationToken") {
-      console.log("Token expirado");
+    if (err.error.error.code == 'InvalidAuthenticationToken') {
+      console.log('Token expirado');
       return 2;
     } else {
       console.log(err.error.error.code);
@@ -172,37 +172,35 @@ async function validateToken() {
   let isActive = await verificateToken();
   let response = null;
   if (isActive == 1) {
-    console.log("Token activo");
+    console.log('Token activo');
     response = true;
   } else if (isActive == 2) {
-    console.log("Token invalido");
-    console.log("Generando nuevo token");
+    console.log('Token invalido');
+    console.log('Generando nuevo token');
     response = await getNewToken();
     //response = true
   } else {
-    console.log("Error interno");
+    console.log('Error interno');
     response = false;
   }
 
   return response;
 }
 
-async function getFileForFilter() {
-
+async function getFileForFilter(url) {
   let isActiveToken = await validateToken();
   if (!isActiveToken) {
     return null;
   }
 
   let headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Authorization": `Bearer ${token}`
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization: `Bearer ${token}`
   };
 
   let options = {
-    url:
-      `https://graph.microsoft.com/v1.0/users/8b3b3ca1-a523-4112-89fd-cf86979462a5/drive/root/search(q='')?select=name,id`,
-    method: "GET",
+    url,
+    method: 'GET',
     headers: headers,
     form: {}
   };
@@ -213,21 +211,98 @@ async function getFileForFilter() {
         console.log(error);
         reject(null);
       }
-      let data = JSON.parse(body).value
-      let res = []
+      let data = JSON.parse(body);
+      let valor = data.value;
+      let next = data['@odata.nextLink'];
+      let isNext = next ? true : false;
+      let res = [];
 
-      for(let item of data){
-        let isValid = new RegExp(`${text.toLowerCase()}`).test(item.name.toLowerCase())
-        if(isValid) res.push(item)
+      for (let item of valor) {
+        let isValid = new RegExp(`factura`).test(item.name.toLowerCase());
+        if (isValid) res.push(item);
+
+        let isValid2 = new RegExp(`banco`).test(item.name.toLowerCase());
+        if (isValid2) res.push(item);
       }
-      
-      resolve(res);
+
+      resolve({ res, next, isNext, size: valor.length });
     });
   });
 }
 
-exports.getTemp = async function getTemp() {
-
+async function getTemp() {
+  try {
+    var url = `https://graph.microsoft.com/v1.0/users/8b3b3ca1-a523-4112-89fd-cf86979462a5/drive/root/search(q='')?top=500&select=name,id`;
+    var temp = true;
+    let data = [];
+    while (temp) {
+      let tempdata = await getFileForFilter(url);
+      for (let item of tempdata.res) data.push(item);
+      console.log(`Datos ingresados --> ${data.length}`);
+      if (data.length > 7970) {
+        temp = false;
+      }
+      url = tempdata.next;
+    }
+    fs.writeFile(
+      './datatemp.json',
+      JSON.stringify({ data, size: data.length }),
+      function(error) {
+        if (error) {
+          console.error('write error:  ' + error.message);
+        } else {
+          console.log('Successful Write to ');
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-//getNewToken()
+async function getFileForFilterOneToOne(text) {
+  const items = require('./items');
+  try {
+    let isActiveToken = await validateToken();
+    if (!isActiveToken) {
+      return null;
+    }
+    let data = [];
+    for (let item of items) {
+      let files = await getFiles(item.id);
+      for (let file of files) {
+        let isValid = new RegExp(`${text.toLowerCase()}`).test(
+          file.name.toLowerCase()
+        );
+        if (isValid) data.push(file);
+      }
+      console.log(data);
+    }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function temp() {
+  const Drive = require('@abskmj/onedrive-api').Drive;
+
+  let isActiveToken = await validateToken();
+  if (!isActiveToken) {
+    return null;
+  }
+
+  let drive = new Drive(token);
+
+  drive.getDefaultDrive().then(
+    response => {
+      console.log(response.body);
+      console.log(response.statusCode);
+    },
+    error => {
+      console.error(error);
+    }
+  );
+}
+
+temp();
