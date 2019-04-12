@@ -412,6 +412,8 @@ export default {
         console.log(res)
         if (res.data.res) {
           this.datatemp = res.data.pdf;
+          console.log('data -->')
+          console.log(this.datatemp)
           this.isLoading = false;
           this.$forceUpdate();
         }
