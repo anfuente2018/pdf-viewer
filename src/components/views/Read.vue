@@ -528,9 +528,11 @@ export default {
         let res = await axios.post('/onedrive/all', body)
         console.log(res)
         if (res.data.res) {
-          this.datatemp = res.data.pdf
-          this.isLoading = false
-          this.$forceUpdate()
+          this.datatemp = res.data.pdf;
+          console.log('data -->')
+          console.log(this.datatemp)
+          this.isLoading = false;
+          this.$forceUpdate();
         }
       } catch (error) {
         this.isLoading = false

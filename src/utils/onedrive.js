@@ -38,13 +38,46 @@ async function getFolders(id, name) {
 }
 
 async function getFiles(id) {
-  let response = [];
 
   if (!id) {
     return null;
   }
 
-  try {
+  let headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Authorization": `Bearer ${token}`
+  };
+
+  let options = {
+    url:
+      `https://graph.microsoft.com/v1.0/users/8b3b3ca1-a523-4112-89fd-cf86979462a5/drive/items/${id}/children?top=490`,
+    method: "GET",
+    headers: headers,
+    form: {}
+  };
+
+  return new Promise((resolve, reject) => {
+    request(options, function(error, res, body) {
+      if (error) {
+        console.log(error);
+        reject(null);
+      }
+      let data = JSON.parse(body).value
+      let response = []
+
+      for (let item of data) {
+        var temp = {
+          name: item.name.split(".pdf")[0],
+          id: item.id
+        };
+        response.push(temp);
+      }
+      
+      resolve(response);
+    });
+  });
+
+  /*try {
     let childrens = await onedrive.items.listChildren({
       accessToken: token,
       itemId: id,
@@ -63,7 +96,7 @@ async function getFiles(id) {
     return response;
   } catch (error) {
     console.log(error);
-  }
+  }*/
 }
 
 exports.getFilesAll = async function getFilesAll(datos) {
