@@ -1,6 +1,7 @@
 {
   "name": "pdf-viewer",
   "version": "1.0.0",
+  "description": "## Project setup ``` npm install ```",
   "engines": {
     "node": "10.x"
   },
@@ -51,9 +52,15 @@
       "autoprefixer": {}
     }
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdaza33/pdf-viewer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdaza33/pdf-viewer/issues"
+  },
+  "homepage": "https://github.com/jdaza33/pdf-viewer#readme"
 }
