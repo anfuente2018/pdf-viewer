@@ -286,6 +286,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     let totalLimitFull =
       totalLimit + 1 > items.length ? items.length : totalLimit + 1
     let totalItems = items.slice(totalPag + 1, totalLimitFull)
+    let actualPag = pag
 
     let hasMore = totalLimitFull < items.length ? true : false
 
@@ -311,6 +312,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
       let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
       data = tmpdata.data
       hasMore = tmpdata.hasMore
+      actualPag = tmpdata.actualPag
     }
     // for (let item of items) {
     //   console.log(`ID: ${item.id}`)
@@ -323,7 +325,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     //   }
     //   console.log(data.length)
     // }
-    return { data, hasMore }
+    return { data, hasMore, actualPag }
   } catch (error) {
     console.log(error)
   }

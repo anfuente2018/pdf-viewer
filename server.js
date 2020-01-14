@@ -380,7 +380,8 @@ app.get('/onedrive/files/:name', async (req, res) => {
   res.json({
     res: true,
     pdf: pdf.data,
-    hasMore: pdf.hasMore
+    hasMore: pdf.hasMore,
+    pag: pdf.actualPag
   })
 })
 
