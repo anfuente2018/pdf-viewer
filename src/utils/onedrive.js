@@ -283,7 +283,11 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     let limit = 20
     let totalPag = pag == 1 ? 0 : (pag - 1) * limit
     let totalLimit = pag * limit
-    let totalItems = items.slice(totalPag + 1, totalLimit + 1)
+    let totalLimitFull =
+      totalLimit + 1 > items.length ? items.length : totalLimit + 1
+    let totalItems = items.slice(totalPag + 1, totalLimitFull)
+
+    let hasMore = totalLimitFull < items.length ? true : false
 
     console.log(totalItems.length)
 
@@ -294,7 +298,6 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     let dataItems = await Promise.all(promises)
 
     for (let files of dataItems) {
-      console.log(files.length)
       for (let file of files) {
         let isValid = new RegExp(`${text.toLowerCase()}`).test(
           file.name.toLowerCase()
@@ -303,8 +306,12 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
       }
     }
 
-    console.log(data)
-
+    console.log(`Total data --> ${data.length}`)
+    if (data.length == 0) {
+      let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
+      data = tmpdata.data
+      hasMore = tmpdata.hasMore
+    }
     // for (let item of items) {
     //   console.log(`ID: ${item.id}`)
     //   let files = await getFiles(item.id)
@@ -316,7 +323,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     //   }
     //   console.log(data.length)
     // }
-    return data
+    return { data, hasMore }
   } catch (error) {
     console.log(error)
   }

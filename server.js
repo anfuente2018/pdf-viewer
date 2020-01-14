@@ -379,7 +379,8 @@ app.get('/onedrive/files/:name', async (req, res) => {
   let pdf = await onedrive.getFileForFilterOneToOne(req.params.name, pag)
   res.json({
     res: true,
-    pdf
+    pdf: pdf.data,
+    hasMore: pdf.hasMore
   })
 })
 
