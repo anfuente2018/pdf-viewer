@@ -290,24 +290,25 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
 
     let hasMore = totalLimitFull < items.length ? true : false
 
-    console.log(totalItems.length)
+    // console.log(totalItems.length)
 
-    for (let item of items) {
-      promises.push(getFiles(item.id))
-    }
+    // for (let item of items) {
+    //   promises.push(getFiles(item.id))
+    // }
 
-    let dataItems = await Promise.all(promises)
+    // let dataItems = await Promise.all(promises)
 
-    for (let files of dataItems) {
-      for (let file of files) {
-        let isValid = new RegExp(`${text.toLowerCase()}`).test(
-          file.name.toLowerCase()
-        )
-        if (isValid) data.push(file)
-      }
-    }
+    // for (let files of dataItems) {
+    //   for (let file of files) {
+    //     let isValid = new RegExp(`${text.toLowerCase()}`).test(
+    //       file.name.toLowerCase()
+    //     )
+    //     if (isValid) data.push(file)
+    //   }
+    // }
 
-    console.log(`Total data --> ${data.length}`)
+    // console.log(`Total data --> ${data.length}`)
+
     // if (data.length == 0) {
     //   let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
     //   data = tmpdata.data
@@ -315,17 +316,21 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     //   actualPag = tmpdata.actualPag
     // }
 
-    // for (let item of items) {
-    //   console.log(`ID: ${item.id}`)
-    //   let files = await getFiles(item.id)
-    //   for (let file of files) {
-    //     let isValid = new RegExp(`${text.toLowerCase()}`).test(
-    //       file.name.toLowerCase()
-    //     )
-    //     if (isValid) data.push(file)
-    //   }
-    //   console.log(data.length)
-    // }
+    /**
+     *
+     */
+
+    for (let item of items) {
+      console.log(`ID: ${item.id}`)
+      let files = await getFiles(item.id)
+      for (let file of files) {
+        let isValid = new RegExp(`${text.toLowerCase()}`).test(
+          file.name.toLowerCase()
+        )
+        if (isValid) data.push(file)
+      }
+      console.log(data.length)
+    }
     return { data, hasMore, actualPag: parseInt(actualPag) + 1 }
   } catch (error) {
     console.log(error)

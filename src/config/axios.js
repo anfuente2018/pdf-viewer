@@ -10,7 +10,7 @@ const port = process.env.VUE_APP_API_URL;
 // create a new axios instance
 const instance = axios.create({
     baseURL: port,
-    timeout: 360000
+    timeout: 600000
 })
 
 // before a request is made start the nprogress
