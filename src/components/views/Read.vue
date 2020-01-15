@@ -184,7 +184,7 @@
           </p>
         </section>
 
-        <div class="center" v-if="hasMore">
+        <!-- <div class="center" v-if="hasMore">
           <b-tooltip label="Buscar más" position="is-right">
             <a
               class="button is-outlined is-primary is-medium"
@@ -195,7 +195,7 @@
               </span>
             </a>
           </b-tooltip>
-        </div>
+        </div> -->
 
         <hr>
         <hr>
@@ -638,7 +638,8 @@ export default {
       })
 
       await axios
-        .get(`/onedrive/files/${this.filtersearch}?pag=${this.actualPage}`)
+        // .get(`/onedrive/files/${this.filtersearch}?pag=${this.actualPage}`)
+        .get(`/onedrive/files/${this.filtersearch}`)
         .then(res => {
           if (res.data.res) {
             if (res.data.pdf.length > 0) {
@@ -647,8 +648,8 @@ export default {
               } else {
                 this.datatempfilter = res.data.pdf
               }
-              this.hasMore = res.data.hasMore
-              if (res.data.hasMore) this.actualPage = res.data.pag
+              // this.hasMore = res.data.hasMore
+              // if (res.data.hasMore) this.actualPage = res.data.pag
               this.$forceUpdate()
               this.isLoading = false
             } else {

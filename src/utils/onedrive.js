@@ -292,7 +292,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
 
     console.log(totalItems.length)
 
-    for (let item of totalItems) {
+    for (let item of items) {
       promises.push(getFiles(item.id))
     }
 
@@ -308,13 +308,13 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     }
 
     console.log(`Total data --> ${data.length}`)
-    if (data.length == 0) {
-      let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
-      data = tmpdata.data
-      hasMore = tmpdata.hasMore
-      actualPag = tmpdata.actualPag
-    }
-    
+    // if (data.length == 0) {
+    //   let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
+    //   data = tmpdata.data
+    //   hasMore = tmpdata.hasMore
+    //   actualPag = tmpdata.actualPag
+    // }
+
     // for (let item of items) {
     //   console.log(`ID: ${item.id}`)
     //   let files = await getFiles(item.id)
@@ -326,7 +326,7 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
     //   }
     //   console.log(data.length)
     // }
-    return { data, hasMore, actualPag: actualPag + 1 }
+    return { data, hasMore, actualPag: parseInt(actualPag) + 1 }
   } catch (error) {
     console.log(error)
   }
