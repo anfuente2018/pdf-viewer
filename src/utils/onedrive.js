@@ -290,61 +290,31 @@ exports.getFileForFilterOneToOne = async function getFileForFilterOneToOne(
 
     let hasMore = totalLimitFull < items.length ? true : false
 
-    // console.log(totalItems.length)
+    console.log(totalItems.length)
 
-    // for (let item of totalItems) {
-    //   promises.push(getFiles(item.id))
-    // }
-
-    // let dataItems = await Promise.all(promises)
-
-    // for (let files of dataItems) {
-    //   for (let file of files) {
-    //     let isValid = new RegExp(`${text.toLowerCase()}`).test(
-    //       file.name.toLowerCase()
-    //     )
-    //     if (isValid) data.push(file)
-    //   }
-    // }
-
-    // console.log(`Total data --> ${data.length}`)
-    // if (data.length == 0) {
-    //   let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
-    //   data = tmpdata.data
-    //   hasMore = tmpdata.hasMore
-    //   actualPag = tmpdata.actualPag
-    // }
-
-    data = [
-      {
-        "name": "A.N.BYR-Factura-9706-WATERSIDE DEVELOPMENT CORP-NCF-B0100000558",
-        "id": "017R6ELVJXP2ZNTFBOQ5AIDMRR6PWRWYTC"
-    },
-    {
-        "name": "A.N.BYR-Factura-9868-WATERSIDE DEVELOPMENTE CORP-NCF-B1400000217",
-        "id": "017R6ELVL5GQWAUQPY5BAKFNK3XD24WMER"
-    },
-    {
-        "name": "A.N.BYR-Factura-9873-WATERSIDE DEVELOPMENT CORP-NCF-B1400000219",
-        "id": "017R6ELVKUO3SDCXQSWJGJ4LDBXZWCRIVG"
-    },
-    {
-        "name": "A.N.BYR-Factura-9877-WATERSIDE DEVELOPMENT CORP-NCF-B1400000220",
-        "id": "017R6ELVNXJBA6YWAA5ZDKWUSP2MWX4CNQ"
-    },
-    {
-        "name": "A.N.BYR-Factura-9881-WATERSIDE DEVELOPMENT CORP-NCF-B0100000601",
-        "id": "017R6ELVNEIFEQ3MKY7ZG2WFCVBSMQJK47"
-    },
-    {
-        "name": "A.N.BYR-Factura-9903-WATERSIDE DEVELOPMENT CORP-NCF-B0100000622",
-        "id": "017R6ELVNOXWGP7HZZQZDIHWYL3VOBEAAJ"
-    },
-    {
-        "name": "A.N.BYR-Factura-955-WATERSIDE DEVELOPMENT CORP",
-        "id": "017R6ELVLUJFY2ZTERPJBKSLNWPK6E55ME"
+    for (let item of totalItems) {
+      promises.push(getFiles(item.id))
     }
-    ]
+
+    let dataItems = await Promise.all(promises)
+
+    for (let files of dataItems) {
+      for (let file of files) {
+        let isValid = new RegExp(`${text.toLowerCase()}`).test(
+          file.name.toLowerCase()
+        )
+        if (isValid) data.push(file)
+      }
+    }
+
+    console.log(`Total data --> ${data.length}`)
+    if (data.length == 0) {
+      let tmpdata = await getFileForFilterOneToOne(text, pag + 1)
+      data = tmpdata.data
+      hasMore = tmpdata.hasMore
+      actualPag = tmpdata.actualPag
+    }
+    
     // for (let item of items) {
     //   console.log(`ID: ${item.id}`)
     //   let files = await getFiles(item.id)

@@ -184,7 +184,7 @@
           </p>
         </section>
 
-        <div class="center">
+        <div class="center" v-if="hasMore">
           <b-tooltip label="Buscar más" position="is-right">
             <a
               class="button is-outlined is-primary is-medium"
@@ -196,6 +196,10 @@
             </a>
           </b-tooltip>
         </div>
+
+        <hr>
+        <hr>
+
       </div>
     </div>
 
@@ -643,6 +647,7 @@ export default {
               } else {
                 this.datatempfilter = res.data.pdf
               }
+              this.hasMore = res.data.hasMore
               if (res.data.hasMore) this.actualPage = res.data.page
               this.$forceUpdate()
               this.isLoading = false
