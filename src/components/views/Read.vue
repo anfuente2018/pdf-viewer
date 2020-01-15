@@ -153,7 +153,7 @@
         <div class="center">
           <b-field label="Introduzca el nombre del archivo y presione enter: ">
             <b-input
-              @keyup.enter.native="searchForFilter()"
+              @keyup.enter.native="searchForFilter(false)"
               placeholder="Buscar"
               type="text"
               icon-pack="fas"
@@ -183,6 +183,19 @@
             </a>
           </p>
         </section>
+
+        <div class="center">
+          <b-tooltip label="Buscar más" position="is-right">
+            <a
+              class="button is-outlined is-primary is-medium"
+              @click="searchForFilter(true)"
+            >
+              <span class="icon is-medium">
+                <i class="fas fa-plus"></i>
+              </span>
+            </a>
+          </b-tooltip>
+        </div>
       </div>
     </div>
 
@@ -384,6 +397,9 @@ const banks = _folders.banks
 export default {
   data() {
     return {
+      hasMore: false,
+      actualPage: 1,
+
       show_read: true,
       pdf_main: '',
 
@@ -528,11 +544,11 @@ export default {
         let res = await axios.post('/onedrive/all', body)
         console.log(res)
         if (res.data.res) {
-          this.datatemp = res.data.pdf;
+          this.datatemp = res.data.pdf
           console.log('data -->')
           console.log(this.datatemp)
-          this.isLoading = false;
-          this.$forceUpdate();
+          this.isLoading = false
+          this.$forceUpdate()
         }
       } catch (error) {
         this.isLoading = false
@@ -610,7 +626,7 @@ export default {
     },
 
     //Buscar por filtro
-    async searchForFilter() {
+    async searchForFilter(more = false) {
       this.isLoading = true
       this.$toast.open({
         message: '[INFO] Buscando archivos en OneDrive',
@@ -618,11 +634,16 @@ export default {
       })
 
       await axios
-        .get(`/onedrive/files/${this.filtersearch}`)
+        .get(`/onedrive/files/${this.filtersearch}?page=${this.actualPage}`)
         .then(res => {
           if (res.data.res) {
             if (res.data.pdf.length > 0) {
-              this.datatempfilter = res.data.pdf
+              if (more) {
+                this.datatempfilter = [...this.datatempfilter, ...res.data.pdf]
+              } else {
+                this.datatempfilter = res.data.pdf
+              }
+              if (res.data.hasMore) this.actualPage = res.data.page
               this.$forceUpdate()
               this.isLoading = false
             } else {
