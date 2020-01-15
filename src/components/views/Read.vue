@@ -638,7 +638,7 @@ export default {
       })
 
       await axios
-        .get(`/onedrive/files/${this.filtersearch}?page=${this.actualPage}`)
+        .get(`/onedrive/files/${this.filtersearch}?pag=${this.actualPage}`)
         .then(res => {
           if (res.data.res) {
             if (res.data.pdf.length > 0) {
@@ -648,7 +648,7 @@ export default {
                 this.datatempfilter = res.data.pdf
               }
               this.hasMore = res.data.hasMore
-              if (res.data.hasMore) this.actualPage = res.data.page
+              if (res.data.hasMore) this.actualPage = res.data.pag
               this.$forceUpdate()
               this.isLoading = false
             } else {
