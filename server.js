@@ -24,7 +24,8 @@ app.use(express.json())
 //let db = new Datastore({ filename: './data.db', autoload: true });
 
 //const MONGO_URL = 'mongodb://localhost:27017/pdfviewer';
-const MONGO_URL = 'mongodb://anfuente:anfuente123456@ds155213.mlab.com:55213/anfuente';
+// const MONGO_URL = 'mongodb://anfuente:anfuente123456@ds155213.mlab.com:55213/anfuente';
+const MONGO_URL = 'mongodb+srv://anfuente:anfuente123456@pdfviewer.gxevc.mongodb.net/anfuente?retryWrites=true&w=majority';
 mongoose.connect(MONGO_URL, function (err, response) {
   if (err) console.log(err);
   console.log('Connected to db pdfviewer');
